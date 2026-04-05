@@ -1,0 +1,30 @@
+name: Morning Weather Email
+on:
+  schedule:
+    - cron: '0 13 * * *' # 8:00 AM EST / 1:00 PM UTC
+  workflow_dispatch:      # The "Run" button for testing
+
+jobs:
+  send-email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Weather Mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.GMAIL_USERNAME }}
+          password: ${{ secrets.GMAIL_PASSWORD }}
+          subject: "☀️ Time to check the weather!"
+          to: ${{ secrets.GMAIL_USERNAME }}
+          from: "My Weather Bot"
+          # The body below includes your clickable link
+          body: |
+            Good morning! 
+            
+            Your daily weather report is ready. 
+            Click the link below to see the conditions in your selected cities:
+            
+            https://weather-vibe-app.vercel.app/
+            
+            Sent via GitHub Actions.
